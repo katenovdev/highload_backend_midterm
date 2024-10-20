@@ -92,3 +92,14 @@ class ProductDetailView(generics.RetrieveAPIView):
                 return Response({"detail": "Not found."}, status=404)
         else:
             return Response(product_data)
+        
+class OrderCreateView(generics.CreateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        if user.role != 'customer':
+            return Response({"detail": "Permission denied."}, status=status.HTTP_403_FORBIDDEN)
+        serializer.save(user=user)
