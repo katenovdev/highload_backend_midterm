@@ -68,7 +68,7 @@ class CategoryListView(generics.ListAPIView):
 class ProductListView(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [permissions.IsAuthenticated] 
+    # permission_classes = [permissions.IsAuthenticated] api to make stress tests
     
 class ProductDetailView(generics.RetrieveAPIView):
     queryset = Product.objects.all()

@@ -6,3 +6,18 @@ services:
     ports:
       - 6379:6379
     command: redis-server --save 60 1 --loglevel warning
+  web1:
+    build: .
+    command: gunicorn --bind 0.0.0.0:8000 midterm.wsgi:application
+    ports:
+      - "8001:8000"
+    depends_on:
+      - redis
+
+  web2:
+    build: .
+    command: gunicorn --bind 0.0.0.0:8000 midterm.wsgi:application
+    ports:
+      - "8002:8000"
+    depends_on:
+      - redis
